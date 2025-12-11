@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codebreaker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>CODEBREAKER</h1>
+            <div class="header-buttons">
+                <button id="howToPlay" class="icon-btn" aria-label="How to play">?</button>
+                <button id="newGame" class="icon-btn" aria-label="New game">↻</button>
+            </div>
+        </header>
+
+        <main>
+            <div class="game-container">
+                <div class="secret-code-container">
+                    <div class="secret-code" id="secretCode">
+                        <div class="secret-peg hidden">?</div>
+                        <div class="secret-peg hidden">?</div>
+                        <div class="secret-peg hidden">?</div>
+                        <div class="secret-peg hidden">?</div>
+                    </div>
+                    <div class="moves-counter">
+                        <span id="movesCount">0</span> / <span id="maxMoves">8</span> moves
+                    </div>
+                </div>
+
+                <div class="game-board" id="gameBoard">
+                    <!-- Active and previous guesses will appear here -->
+                </div>
+
+                <div class="color-palette" id="colorPalette">
+                    <div class="color-option" data-color="red" style="background-color: #dc2626;"></div>
+                    <div class="color-option" data-color="blue" style="background-color: #2563eb;"></div>
+                    <div class="color-option" data-color="green" style="background-color: #16a34a;"></div>
+                    <div class="color-option" data-color="yellow" style="background-color: #ca8a04;"></div>
+                </div>
+
+                <button id="submitGuess" class="btn-submit" disabled>SUBMIT</button>
+            </div>
+
+            <div class="message" id="message"></div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>How to Play</h2>
+            <div class="instructions">
+                <p>The computer has generated a secret code of 4 colors. Your goal is to guess the correct sequence.</p>
+
+                <h3>Using Mouse:</h3>
+                <ul>
+                    <li>Click on a color from the palette</li>
+                    <li>Click on an empty slot to place the color</li>
+                    <li>Click "Submit Guess" when ready</li>
+                </ul>
+
+                <h3>Using Keyboard:</h3>
+                <ul>
+                    <li>Press <kbd>1-4</kbd> to select colors (red, blue, green, yellow)</li>
+                    <li>Press <kbd>Arrow Keys</kbd> to navigate between slots</li>
+                    <li>Press <kbd>Enter</kbd> to submit your guess</li>
+                    <li>Press <kbd>H</kbd> to show help</li>
+                    <li>Press <kbd>Backspace</kbd> to clear current slot</li>
+                </ul>
+
+                <h3>Feedback:</h3>
+                <ul>
+                    <li><span class="feedback-dot" style="background: #22c55e;"></span> <strong>Green dot:</strong> Correct color in correct position</li>
+                    <li><span class="feedback-dot" style="background: #fbbf24;"></span> <strong>Yellow dot:</strong> Correct color in wrong position</li>
+                    <li><span class="feedback-dot" style="background: #6b7280;"></span> <strong>Gray dot:</strong> Color not in code</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>
