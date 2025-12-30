@@ -92,6 +92,7 @@ main {
     flex-direction: column;
     gap: 30px;
     align-items: center;
+    width: 100%;
 }
 
 .secret-code-container {
@@ -108,6 +109,7 @@ main {
 .secret-code {
     display: flex;
     gap: 8px;
+    justify-content: center;
 }
 
 .secret-peg {
@@ -123,6 +125,30 @@ main {
     font-weight: 700;
     color: var(--color-tone-2);
     transition: all 0.3s ease;
+    min-width: 40px; /* Minimum width to prevent squishing */
+    min-height: 40px; /* Minimum height to prevent squishing */
+}
+
+/* Responsive adjustments for different numbers of slots */
+.secret-code.slots-6 .secret-peg,
+.secret-code.slots-7 .secret-peg,
+.secret-code.slots-8 .secret-peg {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+}
+
+.secret-code.slots-7 .secret-peg,
+.secret-code.slots-8 .secret-peg {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+}
+
+.secret-code.slots-8 .secret-peg {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
 }
 
 .secret-peg.hidden {
@@ -166,7 +192,9 @@ main {
     gap: 8px;
     min-height: 80px;
     width: 100%;
-    max-width: 400px;
+    max-width: 100vw; /* Allow to use full viewport width */
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    padding: 4px 0; /* Add some padding */
 }
 
 .guess-row {
@@ -220,6 +248,34 @@ main {
     justify-content: center;
     cursor: pointer;
     transition: all 0.15s ease;
+    min-width: 40px; /* Minimum width to prevent squishing */
+    min-height: 40px; /* Minimum height to prevent squishing */
+}
+
+/* Responsive adjustments for different numbers of slots */
+.guess-row .guess-colors {
+    min-width: auto; /* Allow it to be smaller when needed */
+}
+
+.guess-row.slots-6 .guess-peg,
+.guess-row.slots-7 .guess-peg,
+.guess-row.slots-8 .guess-peg {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+}
+
+.guess-row.slots-7 .guess-peg,
+.guess-row.slots-8 .guess-peg {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+}
+
+.guess-row.slots-8 .guess-peg {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
 }
 
 .guess-peg:hover {
@@ -245,6 +301,19 @@ main {
     right: 12px;
     top: 50%;
     transform: translateY(-50%);
+}
+
+/* Adjust feedback position for more slots to prevent overlap */
+.guess-row.slots-6 .feedback {
+    right: 10px; /* Slightly more space */
+}
+
+.guess-row.slots-7 .feedback {
+    right: 8px; /* More space for 7 slots */
+}
+
+.guess-row.slots-8 .feedback {
+    right: 6px; /* More space for 8 slots */
 }
 
 .feedback-peg {
@@ -415,6 +484,58 @@ kbd {
     border-radius: 50%;
     margin-right: 8px;
     vertical-align: middle;
+}
+
+/* Settings Form */
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.setting-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.setting-row label {
+    font-weight: 600;
+    color: var(--color-tone-1);
+}
+
+.setting-row input {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    max-width: 200px;
+}
+
+.setting-row input:focus {
+    outline: none;
+    border-color: var(--color-tone-1);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+#applySettings {
+    padding: 12px 24px;
+    background: var(--color-tone-1);
+    color: var(--color-tone-5);
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-top: 10px;
+    transition: background-color 0.15s ease;
+}
+
+#applySettings:hover {
+    background: var(--color-tone-2);
 }
 
 @media (max-width: 600px) {

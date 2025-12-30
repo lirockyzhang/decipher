@@ -12,6 +12,7 @@
             <h1>CODEBREAKER</h1>
             <div class="header-buttons">
                 <button id="howToPlay" class="icon-btn" aria-label="How to play">?</button>
+                <button id="settingsBtn" class="icon-btn" aria-label="Settings">⚙️</button>
                 <button id="newGame" class="icon-btn" aria-label="New game">↻</button>
             </div>
         </header>
@@ -20,11 +21,7 @@
             <div class="game-container">
                 <div class="secret-code-container">
                     <div class="secret-code" id="secretCode">
-                        <div class="secret-peg hidden">?</div>
-                        <div class="secret-peg hidden">?</div>
-                        <div class="secret-peg hidden">?</div>
-                        <div class="secret-peg hidden">?</div>
-                        <div class="secret-peg hidden">?</div>
+                        <!-- This will be populated dynamically -->
                     </div>
                     <div class="moves-counter">
                         <span id="movesCount">0</span> / <span id="maxMoves">8</span> moves
@@ -36,11 +33,7 @@
                 </div>
 
                 <div class="color-palette" id="colorPalette">
-                    <div class="color-option" data-color="red" style="background-color: #dc2626;"></div>
-                    <div class="color-option" data-color="blue" style="background-color: #2563eb;"></div>
-                    <div class="color-option" data-color="green" style="background-color: #16a34a;"></div>
-                    <div class="color-option" data-color="yellow" style="background-color: #ca8a04;"></div>
-                    <div class="color-option" data-color="purple" style="background-color: #a855f7;"></div>
+                    <!-- This will be populated dynamically -->
                 </div>
 
                 <div class="action-buttons">
@@ -53,13 +46,13 @@
         </main>
     </div>
 
-    <!-- Modal -->
+    <!-- How to Play Modal -->
     <div id="modal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
+            <span class="close" id="closeModels">&times;</span>
             <h2>How to Play</h2>
             <div class="instructions">
-                <p>The computer has generated a secret code of 5 colors. Your goal is to guess the correct sequence.</p>
+                <p>The computer has generated a secret code of <span id="slotsCountDisplay">5</span> colors. Your goal is to guess the correct sequence.</p>
 
                 <h3>Using Mouse:</h3>
                 <ul>
@@ -70,7 +63,7 @@
 
                 <h3>Using Keyboard:</h3>
                 <ul>
-                    <li>Press <kbd>1-5</kbd> to select colors (red, blue, green, yellow, purple)</li>
+                    <li>Press <kbd>1-<span id="keyboardCountDisplay">5</span></kbd> to select colors</li>
                     <li>Press <kbd>Arrow Keys</kbd> to navigate between slots</li>
                     <li>Press <kbd>Enter</kbd> to submit your guess</li>
                     <li>Press <kbd>H</kbd> to show help</li>
@@ -83,6 +76,29 @@
                     <li><span class="feedback-dot" style="background: #fbbf24;"></span> <strong>Yellow dot:</strong> Correct color in wrong position</li>
                     <li><span class="feedback-dot" style="background: #6b7280;"></span> <strong>Gray dot:</strong> Color not in code</li>
                 </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeSettings">&times;</span>
+            <h2>Game Settings</h2>
+            <div class="settings-form">
+                <div class="setting-row">
+                    <label for="numColors">Number of Colors (4-10):</label>
+                    <input type="number" id="numColors" min="4" max="10" value="5">
+                </div>
+                <div class="setting-row">
+                    <label for="numSlots">Number of Slots (3-8):</label>
+                    <input type="number" id="numSlots" min="3" max="8" value="5">
+                </div>
+                <div class="setting-row">
+                    <label for="maxAttempts">Max Attempts (5-15):</label>
+                    <input type="number" id="maxAttempts" min="5" max="15" value="8">
+                </div>
+                <button id="applySettings">Apply Settings</button>
             </div>
         </div>
     </div>

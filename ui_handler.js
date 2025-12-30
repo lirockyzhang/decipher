@@ -3,10 +3,12 @@
  * Works with the GameController to support both human and AI agents
  */
 class UIHandler {
-    constructor(gameController) {
+    constructor(gameController, numColors = 5, numSlots = 5) {
         this.gameController = gameController;
-        this.game = this.gameController.gameEngine; // Reference to the game engine
-        this.currentGuess = Array(this.game.numSlots).fill(null);
+        this.game = this.gameController.getGameEngine(); // Reference to the game engine
+        this.numColors = numColors;
+        this.numSlots = numSlots;
+        this.currentGuess = Array(this.numSlots).fill(null);
         this.selectedColor = null;
         this.currentSlotIndex = 0;
         this.gameOver = false;
@@ -17,17 +19,61 @@ class UIHandler {
     init() {
         this.setupEventListeners();
         this.updateMovesCounter();
+        this.initializeDynamicUI();
         this.renderActiveRow();
     }
 
-    setupEventListeners() {
-        // Color palette clicks
-        document.querySelectorAll('.color-option').forEach(option => {
-            option.addEventListener('click', (e) => {
-                this.selectColor(e.target.dataset.color);
-            });
-        });
+    initializeDynamicUI() {
+        // Initialize the secret code display with the correct number of pegs
+        this.updateSecretCodeDisplay();
 
+        // Initialize the color palette with the correct number of colors
+        this.updateColorPalette();
+
+        // Set up event listeners for the color options
+        this.setupColorEventListeners();
+    }
+
+    updateSecretCodeDisplay() {
+        const secretCodeElement = document.getElementById('secretCode');
+        secretCodeElement.innerHTML = '';
+
+        // Add CSS class based on number of slots for responsive styling
+        secretCodeElement.className = `secret-code ${this.getSlotClass()}`;
+
+        for (let i = 0; i < this.numSlots; i++) {
+            const peg = document.createElement('div');
+            peg.className = 'secret-peg hidden';
+            peg.textContent = '?';
+            secretCodeElement.appendChild(peg);
+        }
+    }
+
+    updateColorPalette() {
+        const colorPaletteElement = document.getElementById('colorPalette');
+        colorPaletteElement.innerHTML = '';
+
+        // Get the available colors from the game engine
+        const gameEngine = this.gameController.getGameEngine();
+        const colors = gameEngine.colors;
+
+        for (const color of colors) {
+            const colorOption = document.createElement('div');
+            colorOption.className = 'color-option';
+            colorOption.dataset.color = color;
+            colorOption.style.backgroundColor = gameEngine.colorMap[color];
+            colorPaletteElement.appendChild(colorOption);
+        }
+    }
+
+    getSlotClass() {
+        if (this.numSlots >= 8) return 'slots-8';
+        if (this.numSlots >= 7) return 'slots-7';
+        if (this.numSlots >= 6) return 'slots-6';
+        return ''; // default for 3-5 slots
+    }
+
+    setupEventListeners() {
         // Submit button
         document.getElementById('submitGuess').addEventListener('click', () => {
             this.submitGuess();
@@ -51,21 +97,71 @@ class UIHandler {
             this.showModal();
         });
 
-        // Modal close
-        document.querySelector('.close').addEventListener('click', () => {
-            this.hideModal();
-        });
-
-        window.addEventListener('click', (e) => {
-            const modal = document.getElementById('modal');
-            if (e.target === modal) {
+        // Close settings modal
+        const closeModalBtn = document.getElementById('closeModels');
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', () => {
                 this.hideModal();
+            });
+        }
+
+
+        // Settings button
+        const settingsBtn = document.getElementById('settingsBtn');
+        if (settingsBtn) {
+            settingsBtn.addEventListener('click', () => {
+                this.showSettingsModal();
+            });
+        }
+
+        // Close settings modal
+        const closeSettingsBtn = document.getElementById('closeSettings');
+        if (closeSettingsBtn) {
+            closeSettingsBtn.addEventListener('click', () => {
+                this.hideSettingsModal();
+            });
+        }
+
+        // Apply settings button
+        const applySettingsBtn = document.getElementById('applySettings');
+        if (applySettingsBtn) {
+            applySettingsBtn.addEventListener('click', () => {
+                this.applySettings();
+            });
+        }
+
+        // Click outside modal to close
+        window.addEventListener('click', (e) => {
+            const howToPlayModal = document.getElementById('modal');
+            const settingsModal = document.getElementById('settingsModal');
+
+            if (e.target === howToPlayModal) {
+                this.hideModal();
+            }
+            if (e.target === settingsModal) {
+                this.hideSettingsModal();
             }
         });
 
         // Keyboard controls
         document.addEventListener('keydown', (e) => {
             this.handleKeyPress(e);
+        });
+    }
+
+    setupColorEventListeners() {
+        // Remove existing listeners to avoid duplicates
+        document.querySelectorAll('.color-option').forEach(option => {
+            // Remove old event listeners by replacing the element
+            const newOption = option.cloneNode(true);
+            option.parentNode.replaceChild(newOption, option);
+        });
+
+        // Add event listeners to the new elements
+        document.querySelectorAll('.color-option').forEach(option => {
+            option.addEventListener('click', (e) => {
+                this.selectColor(e.target.dataset.color);
+            });
         });
     }
 
@@ -83,7 +179,7 @@ class UIHandler {
             this.updateActiveSlot();
             e.preventDefault();
         } else if (e.key === 'ArrowRight') {
-            this.currentSlotIndex = Math.min(this.game.numSlots - 1, this.currentSlotIndex + 1);
+            this.currentSlotIndex = Math.min(this.numSlots - 1, this.currentSlotIndex + 1);
             this.updateActiveSlot();
             e.preventDefault();
         }
@@ -109,7 +205,9 @@ class UIHandler {
 
         // Escape to close modal
         if (e.key === 'Escape') {
+            // Close any open modal
             this.hideModal();
+            this.hideSettingsModal();
             e.preventDefault();
         }
 
@@ -223,12 +321,12 @@ class UIHandler {
         const gameBoard = document.getElementById('gameBoard');
 
         const row = document.createElement('div');
-        row.className = 'guess-row active';
+        row.className = `guess-row active ${this.getSlotClass()}`;
 
         const guessColors = document.createElement('div');
         guessColors.className = 'guess-colors';
 
-        for (let i = 0; i < this.game.numSlots; i++) {
+        for (let i = 0; i < this.numSlots; i++) {
             const peg = document.createElement('div');
             peg.className = 'guess-peg';
             peg.dataset.index = i;
@@ -303,7 +401,7 @@ class UIHandler {
                 peg.style.backgroundColor = '#c9b458';
                 feedbackDiv.appendChild(peg);
             }
-            const remaining = this.game.numSlots - result.feedback.exact - result.feedback.partial;
+            const remaining = this.numSlots - result.feedback.exact - result.feedback.partial;
             for (let i = 0; i < remaining; i++) {
                 const peg = document.createElement('div');
                 peg.className = 'feedback-peg';
@@ -332,7 +430,7 @@ class UIHandler {
             }
 
             // Reset for next guess and create new active row
-            this.currentGuess = Array(this.game.numSlots).fill(null);
+            this.currentGuess = Array(this.numSlots).fill(null);
             this.currentSlotIndex = 0;
             this.selectedColor = null;
 
@@ -395,7 +493,7 @@ class UIHandler {
 
     resetGame() {
         this.gameController.startNewGame(); // Reset through the game controller
-        this.currentGuess = Array(this.game.numSlots).fill(null);
+        this.currentGuess = Array(this.numSlots).fill(null);
         this.gameOver = false;
         this.selectedColor = null;
         this.currentSlotIndex = 0;
@@ -406,7 +504,7 @@ class UIHandler {
 
         // Reset secret code display
         const secretPegs = document.querySelectorAll('.secret-peg');
-        for (let i = 0; i < this.game.numSlots; i++) {
+        for (let i = 0; i < this.numSlots; i++) {
             const peg = secretPegs[i];
             if (peg) {
                 peg.style.backgroundColor = '';
@@ -423,5 +521,64 @@ class UIHandler {
 
         this.updateMovesCounter();
         this.renderActiveRow();
+    }
+
+    // Settings modal methods
+    showSettingsModal() {
+        // Set current values in the settings form
+        document.getElementById('numColors').value = this.game.colors.length;
+        document.getElementById('numSlots').value = this.numSlots;
+        document.getElementById('maxAttempts').value = this.game.maxAttempts;
+
+        document.getElementById('settingsModal').style.display = 'block';
+    }
+
+    hideSettingsModal() {
+        document.getElementById('settingsModal').style.display = 'none';
+    }
+
+    applySettings() {
+        const numColors = parseInt(document.getElementById('numColors').value);
+        const numSlots = parseInt(document.getElementById('numSlots').value);
+        const maxAttempts = parseInt(document.getElementById('maxAttempts').value);
+
+        // Validate inputs
+        if (numColors < 4 || numColors > 10) {
+            this.showMessage('Number of colors must be between 4 and 10', 'error');
+            return;
+        }
+
+        if (numSlots < 3 || numSlots > 8) {
+            this.showMessage('Number of slots must be between 3 and 8', 'error');
+            return;
+        }
+
+        if (maxAttempts < 5 || maxAttempts > 15) {
+            this.showMessage('Max attempts must be between 5 and 15', 'error');
+            return;
+        }
+
+        // Update the game with new settings
+        this.restartGameWithNewSettings(numColors, numSlots, maxAttempts);
+
+        // Close the settings modal
+        this.hideSettingsModal();
+    }
+
+    restartGameWithNewSettings(numColors, numSlots, maxAttempts) {
+        // Update the global game instance with new settings
+        const newUiHandler = codebreakerGame.restartWithSettings(numColors, numSlots, maxAttempts);
+
+        // Update the global uiHandler reference
+        window.uiHandler = newUiHandler;
+
+        // Update the display elements that show the number of slots
+        document.getElementById('slotsCountDisplay').textContent = numSlots;
+        document.getElementById('keyboardCountDisplay').textContent = numColors;
+
+        // Explicitly reset the game to ensure proper initialization with new settings
+        newUiHandler.resetGame();
+
+        this.showMessage(`Game restarted with ${numColors} colors and ${numSlots} slots!`, 'success');
     }
 }

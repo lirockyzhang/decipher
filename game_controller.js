@@ -106,4 +106,12 @@ class GameController {
     getCurrentAgent() {
         return this.currentAgent;
     }
+
+    /**
+     * Get the game engine
+     * @returns {GameEngine} Game engine
+     */
+    getGameEngine() {
+        return this.gameEngine;
+    }
 }

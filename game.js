@@ -10,7 +10,7 @@ class CodebreakerGame {
         this.gameController.setHumanAgent();
 
         // Initialize the UI handler with the game controller
-        this.uiHandler = new UIHandler(this.gameController);
+        this.uiHandler = new UIHandler(this.gameController, numColors, numSlots);
     }
 
     // Method to switch to an AI agent
@@ -47,6 +47,18 @@ class CodebreakerGame {
     getCurrentAgent() {
         return this.gameController.getCurrentAgent();
     }
+
+    // Method to restart game with new settings
+    restartWithSettings(numColors, numSlots, maxAttempts) {
+        // Create new game controller with new settings
+        this.gameController = new GameController(numColors, numSlots, maxAttempts);
+        this.gameController.setHumanAgent();
+
+        // Update UI handler with new settings
+        this.uiHandler = new UIHandler(this.gameController, numColors, numSlots);
+
+        return this.uiHandler;
+    }
 }
 
 // Initialize game when page loads with default values
@@ -56,4 +68,8 @@ let uiHandler;
 window.addEventListener('DOMContentLoaded', () => {
     codebreakerGame = new CodebreakerGame(5, 5); // Default: 5 colors, 5 slots
     uiHandler = codebreakerGame.uiHandler; // Reference to the UI handler
+
+    // Make variables available globally for UI handler to access
+    window.codebreakerGame = codebreakerGame;
+    window.uiHandler = uiHandler;
 });
