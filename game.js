@@ -56,7 +56,9 @@ class CodebreakerGame {
 
         // Update UI handler with new settings
         this.uiHandler = new UIHandler(this.gameController, numColors, numSlots);
-
+        this.uiHandler.resetGame();
+        this.uiHandler.showMessage(`Game restarted with ${numColors} colors and ${numSlots} slots!`, 'success');
+        window.uiHandler = this.uiHandler;
         return this.uiHandler;
     }
 }

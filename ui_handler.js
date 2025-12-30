@@ -288,25 +288,36 @@ class UIHandler {
 
         // Auto-place in current slot
         this.placeColor(this.currentSlotIndex);
+
+        // Clear the selected color after placing to avoid persistence
+        this.selectedColor = null;
+
+        // Remove visual selection from the color palette
+        document.querySelectorAll('.color-option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
     }
 
     placeColor(index) {
         if (this.gameOver) return;
 
-        this.currentGuess[index] = this.selectedColor;
-        this.updateActiveRowDisplay();
+        // Only place a color if one is selected
+        if (this.selectedColor) {
+            this.currentGuess[index] = this.selectedColor;
+            this.updateActiveRowDisplay();
 
-        // Move to next empty slot
-        for (let i = index + 1; i < this.game.numSlots; i++) {
-            if (this.currentGuess[i] === null) {
-                this.currentSlotIndex = i;
-                this.updateActiveSlot();
-                return;
+            // Move to next empty slot
+            for (let i = index + 1; i < this.game.numSlots; i++) {
+                if (this.currentGuess[i] === null) {
+                    this.currentSlotIndex = i;
+                    this.updateActiveSlot();
+                    return;
+                }
             }
+            // If no empty slot ahead, stay on current
+            this.currentSlotIndex = index;
+            this.updateActiveSlot();
         }
-        // If no empty slot ahead, stay on current
-        this.currentSlotIndex = index;
-        this.updateActiveSlot();
     }
 
     updateActiveSlot() {
@@ -337,22 +348,26 @@ class UIHandler {
             peg.className = 'guess-peg';
             peg.dataset.index = i;
 
-            // Click handler for pegs
+            // Click handler for pegs - move index only
             peg.addEventListener('click', () => {
                 this.currentSlotIndex = i;
                 this.updateActiveSlot();
 
-                // Only handle placement/clearing if a color is selected
+                // Only place color if one is selected
                 if (this.selectedColor) {
-                    // If the peg has the same color as the selected color, empty it
-                    if (this.currentGuess[i] === this.selectedColor) {
-                        this.currentGuess[i] = null;
-                        this.updateActiveRowDisplay();
-                    } else {
-                        // Otherwise, place the selected color
-                        this.placeColor(i);
-                    }
+                    this.placeColor(i);
                 }
+            });
+
+            // Double-click handler for pegs - remove color
+            peg.addEventListener('dblclick', (e) => {
+                e.preventDefault(); // Prevent default double-click behavior
+                if (this.currentGuess[i] !== null) {
+                    this.currentGuess[i] = null;
+                    this.updateActiveRowDisplay();
+                }
+                this.currentSlotIndex = i;
+                this.updateActiveSlot();
             });
 
             guessColors.appendChild(peg);
@@ -574,10 +589,8 @@ class UIHandler {
         }
 
         // Update the game with new settings
-        this.restartGameWithNewSettings(numColors, numSlots, maxAttempts);
-
-        // Close the settings modal
         this.hideSettingsModal();
+        this.restartGameWithNewSettings(numColors, numSlots, maxAttempts);
     }
 
     restartGameWithNewSettings(numColors, numSlots, maxAttempts) {
@@ -590,10 +603,5 @@ class UIHandler {
         // Update the display elements that show the number of slots
         document.getElementById('slotsCountDisplay').textContent = numSlots;
         document.getElementById('keyboardCountDisplay').textContent = numColors;
-
-        // Explicitly reset the game to ensure proper initialization with new settings
-        newUiHandler.resetGame();
-
-        this.showMessage(`Game restarted with ${numColors} colors and ${numSlots} slots!`, 'success');
     }
 }

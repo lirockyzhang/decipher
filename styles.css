@@ -38,9 +38,9 @@ body {
 
 header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    padding: 20px 0;
+    padding: 20px;
     border-bottom: 1px solid var(--border-color);
     position: relative;
 }
@@ -50,13 +50,18 @@ h1 {
     font-weight: 700;
     letter-spacing: 0.5px;
     color: var(--color-tone-1);
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+    padding-right: 60px; /* Make space for buttons on the right */
+    padding-left: 60px;  /* Make space for buttons on the left if needed */
 }
 
 .header-buttons {
-    position: absolute;
-    right: 20px;
     display: flex;
     gap: 8px;
+    position: absolute;
+    right: 20px;
 }
 
 .icon-btn {
@@ -540,7 +545,19 @@ kbd {
 
 @media (max-width: 600px) {
     h1 {
-        font-size: 28px;
+        font-size: 24px; /* Smaller font size on mobile */
+        padding-right: 50px; /* Adjust padding for smaller screens */
+        padding-left: 50px;
+    }
+
+    .header-buttons {
+        right: 10px; /* Move buttons closer to the edge on mobile */
+    }
+
+    .icon-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
     }
 
     .guess-slot {
@@ -560,5 +577,25 @@ kbd {
 
     main {
         padding: 16px;
+    }
+}
+
+/* Extra small screens - when the collision is most likely to happen */
+@media (max-width: 400px) {
+    h1 {
+        font-size: 20px; /* Even smaller font on very small screens */
+        padding-right: 40px;
+        padding-left: 40px;
+    }
+
+    .header-buttons {
+        gap: 4px; /* Reduce gap between buttons */
+        right: 8px;
+    }
+
+    .icon-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 18px;
     }
 }
