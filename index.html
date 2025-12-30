@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codebreaker</title>
+    <title>Decipher</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>CODEBREAKER</h1>
+            <h1>DECIPHER</h1>
             <div class="header-buttons">
                 <button id="howToPlay" class="icon-btn" aria-label="How to play">?</button>
                 <button id="settingsBtn" class="icon-btn" aria-label="Settings">⚙️</button>
@@ -52,18 +52,18 @@
             <span class="close" id="closeModels">&times;</span>
             <h2>How to Play</h2>
             <div class="instructions">
-                <p>The computer has generated a secret code of <span id="slotsCountDisplay">5</span> colors. Your goal is to guess the correct sequence.</p>
+                <p>The computer has generated a secret code of length <span id="slotsCountDisplay">5</span>. Your goal is to guess the correct colors and sequence. The secret code may or may not contain all the colors from the palette.</p>
 
                 <h3>Using Mouse:</h3>
                 <ul>
-                    <li>Click on a color from the palette</li>
-                    <li>Click on an empty slot to place the color</li>
+                    <li>Click on a color from the palette to select it</li>
+                    <li>Click on an empty slot to place the selected color</li>
+                    <li>Click on a filled slot to clear it (acts like backspace)</li>
                     <li>Click "Submit Guess" when ready</li>
                 </ul>
 
                 <h3>Using Keyboard:</h3>
                 <ul>
-                    <li>Press <kbd>1-<span id="keyboardCountDisplay">5</span></kbd> to select colors</li>
                     <li>Press <kbd>Arrow Keys</kbd> to navigate between slots</li>
                     <li>Press <kbd>Enter</kbd> to submit your guess</li>
                     <li>Press <kbd>H</kbd> to show help</li>

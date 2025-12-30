@@ -166,6 +166,9 @@ class UIHandler {
     }
 
     handleKeyPress(e) {
+        // Check if we're in an input field or modal that should handle its own backspace
+        const isInputElement = e.target.closest('input, .modal, textarea, select');
+
         if (this.gameOver) {
             if (e.key.toLowerCase() === 'n') {
                 this.resetGame();
@@ -173,37 +176,40 @@ class UIHandler {
             return;
         }
 
-        // Arrow keys for slot navigation
-        if (e.key === 'ArrowLeft') {
+        // Arrow keys for slot navigation (only when not in an input field or modal)
+        if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !isInputElement) {
+            if (e.key === 'ArrowLeft') {
+                this.currentSlotIndex = Math.max(0, this.currentSlotIndex - 1);
+                this.updateActiveSlot();
+            } else if (e.key === 'ArrowRight') {
+                this.currentSlotIndex = Math.min(this.numSlots - 1, this.currentSlotIndex + 1);
+                this.updateActiveSlot();
+            }
+            e.preventDefault();
+        }
+
+        // Backspace to clear current slot (only when not in an input field or modal)
+        if (e.key === 'Backspace' && !isInputElement) {
+            this.currentGuess[this.currentSlotIndex] = null;
+            this.updateActiveRowDisplay();
             this.currentSlotIndex = Math.max(0, this.currentSlotIndex - 1);
             this.updateActiveSlot();
             e.preventDefault();
-        } else if (e.key === 'ArrowRight') {
-            this.currentSlotIndex = Math.min(this.numSlots - 1, this.currentSlotIndex + 1);
-            this.updateActiveSlot();
-            e.preventDefault();
         }
 
-        // Backspace to clear current slot
-        if (e.key === 'Backspace') {
-            this.currentGuess[this.currentSlotIndex] = null;
-            this.updateActiveRowDisplay();
-            e.preventDefault();
-        }
-
-        // Enter to submit guess
-        if (e.key === 'Enter') {
+        // Enter to submit guess (only when not in an input field or modal)
+        if (e.key === 'Enter' && !isInputElement) {
             this.submitGuess();
             e.preventDefault();
         }
 
         // H for help
-        if (e.key.toLowerCase() === 'h') {
+        if (e.key.toLowerCase() === 'h' && !isInputElement) {
             this.showModal();
             e.preventDefault();
         }
 
-        // Escape to close modal
+        // Escape to close modal (always allowed)
         if (e.key === 'Escape') {
             // Close any open modal
             this.hideModal();
@@ -211,8 +217,8 @@ class UIHandler {
             e.preventDefault();
         }
 
-        // Space to place selected color
-        if (e.key === ' ' && this.selectedColor) {
+        // Space to place selected color (only when not in an input field or modal)
+        if (e.key === ' ' && this.selectedColor && !isInputElement) {
             this.placeColor(this.currentSlotIndex);
             e.preventDefault();
         }
@@ -335,8 +341,17 @@ class UIHandler {
             peg.addEventListener('click', () => {
                 this.currentSlotIndex = i;
                 this.updateActiveSlot();
+
+                // Only handle placement/clearing if a color is selected
                 if (this.selectedColor) {
-                    this.placeColor(i);
+                    // If the peg has the same color as the selected color, empty it
+                    if (this.currentGuess[i] === this.selectedColor) {
+                        this.currentGuess[i] = null;
+                        this.updateActiveRowDisplay();
+                    } else {
+                        // Otherwise, place the selected color
+                        this.placeColor(i);
+                    }
                 }
             });
 
