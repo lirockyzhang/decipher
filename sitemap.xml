@@ -1,36 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://puzzle.lzhang.dev/</loc>
         <lastmod>2025-01-01</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
-        <title>Decipher - Mastermind Puzzle Challenge | Logic Game & Brain Teaser</title>
-        <image:image>
-            <image:loc>https://puzzle.lzhang.dev/images/decipher-preview.jpg</image:loc>
-            <image:title>Decipher Puzzle Game Interface</image:title>
-            <image:caption>Play the classic Mastermind-style logic puzzle game online</image:caption>
-        </image:image>
-    </url>
-    <url>
-        <loc>https://puzzle.lzhang.dev/how-to-play</loc>
-        <lastmod>2025-01-01</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-        <title>How to Play Decipher - Complete Guide</title>
-    </url>
-    <url>
-        <loc>https://puzzle.lzhang.dev/strategy-tips</loc>
-        <lastmod>2025-01-01</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.7</priority>
-        <title>Decipher Strategy Tips - Master the Logic Puzzle</title>
-    </url>
-    <url>
-        <loc>https://puzzle.lzhang.dev/logic-games</loc>
-        <lastmod>2025-01-01</lastmod>
-        <changefreq>monthly</changefreq>
-        <priority>0.6</priority>
-        <title>Best Logic Games and Brain Teasers</title>
     </url>
 </urlset>
