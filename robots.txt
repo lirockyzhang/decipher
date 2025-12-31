@@ -1,0 +1,31 @@
+User-agent: *
+Allow: /
+Disallow: /cgi-bin/
+Disallow: /temp/
+Disallow: /private/
+
+# Crawl-delay for slower bots (in seconds)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://puzzle.lzhang.dev/sitemap.xml
+
+# Host directive (Google-specific)
+Host: puzzle.lzhang.dev
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Specific rules for common bots
+User-agent: AdsBot-Google
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /

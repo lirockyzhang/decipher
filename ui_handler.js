@@ -568,22 +568,33 @@ class UIHandler {
     }
 
     applySettings() {
-        const numColors = parseInt(document.getElementById('numColors').value);
-        const numSlots = parseInt(document.getElementById('numSlots').value);
-        const maxAttempts = parseInt(document.getElementById('maxAttempts').value);
+        // Sanitize and validate inputs to prevent XSS
+        const rawNumColors = document.getElementById('numColors').value;
+        const rawNumSlots = document.getElementById('numSlots').value;
+        const rawMaxAttempts = document.getElementById('maxAttempts').value;
 
-        // Validate inputs
-        if (numColors < 4 || numColors > 10) {
+        // Sanitize inputs by removing any non-numeric characters except for potential decimal points
+        const sanitizedNumColors = rawNumColors.replace(/[^0-9]/g, '');
+        const sanitizedNumSlots = rawNumSlots.replace(/[^0-9]/g, '');
+        const sanitizedMaxAttempts = rawMaxAttempts.replace(/[^0-9]/g, '');
+
+        // Parse the sanitized values
+        const numColors = parseInt(sanitizedNumColors);
+        const numSlots = parseInt(sanitizedNumSlots);
+        const maxAttempts = parseInt(sanitizedMaxAttempts);
+
+        // Validate inputs are numbers and within expected ranges
+        if (isNaN(numColors) || numColors < 4 || numColors > 10) {
             this.showMessage('Number of colors must be between 4 and 10', 'error');
             return;
         }
 
-        if (numSlots < 3 || numSlots > 8) {
+        if (isNaN(numSlots) || numSlots < 3 || numSlots > 8) {
             this.showMessage('Number of slots must be between 3 and 8', 'error');
             return;
         }
 
-        if (maxAttempts < 5 || maxAttempts > 15) {
+        if (isNaN(maxAttempts) || maxAttempts < 5 || maxAttempts > 15) {
             this.showMessage('Max attempts must be between 5 and 15', 'error');
             return;
         }
@@ -594,14 +605,30 @@ class UIHandler {
     }
 
     restartGameWithNewSettings(numColors, numSlots, maxAttempts) {
+        // Additional validation to ensure values are safe integers
+        if (typeof numColors !== 'number' || isNaN(numColors) || numColors < 4 || numColors > 10) {
+            this.showMessage('Invalid number of colors', 'error');
+            return;
+        }
+
+        if (typeof numSlots !== 'number' || isNaN(numSlots) || numSlots < 3 || numSlots > 8) {
+            this.showMessage('Invalid number of slots', 'error');
+            return;
+        }
+
+        if (typeof maxAttempts !== 'number' || isNaN(maxAttempts) || maxAttempts < 5 || maxAttempts > 15) {
+            this.showMessage('Invalid number of attempts', 'error');
+            return;
+        }
+
         // Update the global game instance with new settings
-        const newUiHandler = codebreakerGame.restartWithSettings(numColors, numSlots, maxAttempts);
+        const newUiHandler = decipherGame.restartWithSettings(numColors, numSlots, maxAttempts);
 
         // Update the global uiHandler reference
         window.uiHandler = newUiHandler;
 
         // Update the display elements that show the number of slots
+        // Using textContent is safe as numSlots is validated as an integer
         document.getElementById('slotsCountDisplay').textContent = numSlots;
-        document.getElementById('keyboardCountDisplay').textContent = numColors;
     }
 }

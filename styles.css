@@ -109,7 +109,7 @@ main {
     gap: 12px;
     padding: 20px;
     background: var(--color-tone-4);
-    border-radius: 12px;
+    border-radius: 20px;
     width: fit-content;
 }
 
@@ -182,7 +182,7 @@ main {
 
 .moves-counter {
     font-size: 14px;
-    color: var(--color-tone-2);
+    color: var(--color-tone-1);
     font-weight: 600;
     letter-spacing: 0.5px;
 }
@@ -432,7 +432,7 @@ main {
     max-height: calc(100vh - 120px);
     overflow-y: auto;
     border: 1px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 .close {
@@ -582,22 +582,205 @@ kbd {
     }
 }
 
+/* Screen reader only class for accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* SEO content styling - make content visible to search engines but hidden for users */
+.seo-content {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+    /* This hides the content visually but keeps it accessible to screen readers and search engines */
+}
+
+/* No additional styling needed since the content is visually hidden */
+
+/* Performance optimizations */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Mobile responsiveness improvements */
+@media (max-width: 600px) {
+    .container {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 24px; /* Smaller font size on mobile */
+        padding: 0 20px; /* Adjust padding for smaller screens */
+    }
+
+    .centered-buttons-row {
+        padding: 0 10px;
+    }
+
+    .header-buttons {
+        gap: 6px; /* Reduce gap between buttons */
+    }
+
+    .icon-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+    }
+
+    main {
+        padding: 16px 12px;
+    }
+
+    .secret-code-container {
+        padding: 16px;
+        margin: 0 10px;
+    }
+
+    .secret-peg {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+
+    .guess-peg {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+
+    .guess-row.slots-6 .guess-peg,
+    .guess-row.slots-7 .guess-peg,
+    .guess-row.slots-8 .guess-peg {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+    }
+
+    .color-palette {
+        padding: 12px;
+        margin: 0 10px;
+        gap: 8px;
+    }
+
+    .color-option {
+        width: 36px;
+        height: 36px;
+    }
+
+    .btn-submit {
+        padding: 12px 32px;
+        font-size: 15px;
+        margin: 16px auto 0 auto;
+    }
+
+    .modal-content {
+        margin: 40px auto;
+        padding: 24px;
+        width: 95%;
+        max-width: 480px;
+    }
+
+    .instructions h2 {
+        font-size: 18px;
+    }
+
+    .instructions h3 {
+        font-size: 15px;
+    }
+
+    .seo-content {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+}
+
 /* Extra small screens - when the collision is most likely to happen */
 @media (max-width: 400px) {
     h1 {
         font-size: 20px; /* Even smaller font on very small screens */
-        padding-right: 40px;
-        padding-left: 40px;
+        padding: 0 15px;
     }
 
     .header-buttons {
         gap: 4px; /* Reduce gap between buttons */
-        right: 8px;
     }
 
     .icon-btn {
         width: 32px;
         height: 32px;
         font-size: 18px;
+    }
+
+    .secret-peg {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .guess-peg {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .color-option {
+        width: 32px;
+        height: 32px;
+    }
+
+    .modal-content {
+        margin: 30px auto;
+        padding: 20px;
+        width: 98%;
+    }
+
+    .seo-content {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
+}
+
+/* Performance optimizations for animations */
+.guess-peg,
+.icon-btn,
+.color-option {
+    will-change: transform;
+}
+
+@supports (backdrop-filter: blur(10px)) {
+    .modal {
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
     }
 }

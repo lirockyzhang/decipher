@@ -1,7 +1,25 @@
 /**
  * Core Game Engine - Pure game logic without UI concerns
+ *
+ * The GameEngine class manages the core logic of the Decipher game, including:
+ * - Generating secret codes
+ * - Evaluating player guesses
+ * - Tracking game state
+ * - Determining win/lose conditions
+ *
+ * The evaluation algorithm works in two passes:
+ * 1. First pass: Identify exact matches (correct color in correct position)
+ * 2. Second pass: Identify partial matches (correct color in wrong position)
+ *
+ * This two-pass approach prevents double-counting of colors when there are duplicates.
  */
 class GameEngine {
+    /**
+     * Creates a new GameEngine instance
+     * @param {number} numColors - Number of colors to use in the game (4-10)
+     * @param {number} numSlots - Number of slots in the secret code (3-8)
+     * @param {number} maxAttempts - Maximum number of guesses allowed (5-15)
+     */
     constructor(numColors = 5, numSlots = 5, maxAttempts = 8) {
         // Available colors
         this.allColors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'cyan', 'brown', 'lime'];
@@ -47,6 +65,24 @@ class GameEngine {
         return code;
     }
 
+    /**
+     * Evaluates a player's guess against the secret code
+     *
+     * Algorithm:
+     * 1. First pass: Identify exact matches (correct color in correct position)
+     *    - Mark matched positions as null to prevent double counting
+     * 2. Second pass: Identify partial matches (correct color in wrong position)
+     *    - Only consider non-null positions from the first pass
+     *
+     * This two-pass algorithm ensures that duplicate colors are handled correctly
+     * and prevents overcounting of matches.
+     *
+     * @param {string[]} guess - Array of color strings representing the player's guess
+     * @returns {Object} Object containing exact and partial match counts
+     * @returns {number} return.exact - Number of exact matches (correct color + position)
+     * @returns {number} return.partial - Number of partial matches (correct color, wrong position)
+     * @throws {Error} If guess is invalid (wrong length or invalid colors)
+     */
     evaluateGuess(guess) {
         if (!Array.isArray(guess) || guess.length !== this.numSlots) {
             throw new Error(`Guess must be an array of ${this.numSlots} colors`);

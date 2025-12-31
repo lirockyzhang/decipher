@@ -3,39 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Codebreaker</title>
+    <title>Decipher - Mastermind Puzzle Challenge | puzzle.lzhang.dev</title>
+    <meta name="title" content="Decipher - Mastermind Puzzle Challenge">
+    <meta name="description" content="Play the classic Decipher puzzle game online! Test your logic skills in this challenging Mastermind-style puzzle. Guess the secret color code in as few moves as possible.">
+    <meta name="keywords" content="decipher, mastermind, puzzle game, logic game, color puzzle, brain teaser, online games, free games">
+    <meta name="author" content="puzzle.lzhang.dev">
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="7 days">
+    <link rel="canonical" href="https://puzzle.lzhang.dev">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://puzzle.lzhang.dev">
+    <meta property="og:title" content="Decipher Game - Mastermind Puzzle Challenge">
+    <meta property="og:description" content="Play the classic Decipher game online! Test your logic skills in this challenging Mastermind-style puzzle.">
+    <meta property="og:image" content="https://puzzle.lzhang.dev/images/decipher-preview.jpg">
+    <meta property="og:site_name" content="puzzle.lzhang.dev">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://puzzle.lzhang.dev">
+    <meta property="twitter:title" content="Decipher Game - Mastermind Puzzle Challenge">
+    <meta property="twitter:description" content="Play the classic Decipher game online! Test your logic skills in this challenging Mastermind-style puzzle.">
+    <meta property="twitter:image" content="https://puzzle.lzhang.dev/images/decipher-preview.jpg">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Game",
+      "name": "Decipher",
+      "description": "A challenging Mastermind-style puzzle game where players guess the secret color code in as few moves as possible.",
+      "url": "https://puzzle.lzhang.dev",
+      "image": "https://puzzle.lzhang.dev/images/decipher-preview.jpg",
+      "author": {
+        "@type": "Organization",
+        "name": "puzzle.lzhang.dev"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "puzzle.lzhang.dev",
+        "url": "https://puzzle.lzhang.dev"
+      },
+      "gamePlatform": "Web Browser",
+      "playMode": "SinglePlayer",
+      "genre": ["Puzzle", "Logic Game", "Brain Teaser"],
+      "audience": {
+        "@type": "Audience",
+        "name": "Everyone",
+        "audienceType": ["Puzzle Game Enthusiasts", "Logic Game Players"]
+      },
+      "inLanguage": "en",
+      "datePublished": "2025-01-01",
+      "dateModified": "2025-01-01",
+      "keywords": "decipher, mastermind, puzzle game, logic game, color puzzle, brain teaser",
+      "hasPart": [
+        {
+          "@type": "HowTo",
+          "name": "How to Play Decipher",
+          "description": "Learn how to play the Decipher puzzle game with our comprehensive guide."
+        }
+      ]
+    }
+    </script>
+
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>CODEBREAKER</h1>
-            <div class="header-buttons">
-                <button id="howToPlay" class="icon-btn" aria-label="How to play">?</button>
-                <button id="newGame" class="icon-btn" aria-label="New game">↻</button>
+        <header role="banner">
+            <h1>DECIPHER</h1>
+            <div class="centered-buttons-row">
+                <div class="header-buttons" role="toolbar" aria-label="Game Controls">
+                    <button id="howToPlay" class="icon-btn" aria-label="How to play" title="How to Play" aria-describedby="howToPlayDesc">❓</button>
+                    <button id="settingsBtn" class="icon-btn" aria-label="Settings" title="Settings" aria-describedby="settingsDesc">⚙️</button>
+                    <button id="newGame" class="icon-btn" aria-label="Start new game" title="New Game" aria-describedby="newGameDesc">🔄</button>
+                </div>
             </div>
         </header>
 
-        <main>
-            <div class="game-container">
-                <div class="secret-code-container">
-                    <div class="secret-code" id="secretCode">
+        <main role="main">
+            <div class="game-container" role="application" aria-label="Codebreaker Game Interface">
+                <div class="secret-code-container" aria-label="Secret Code Display">
+                    <div class="secret-code" id="secretCode" aria-live="polite" aria-atomic="true">
                         <div class="secret-peg hidden">?</div>
                         <div class="secret-peg hidden">?</div>
                         <div class="secret-peg hidden">?</div>
                         <div class="secret-peg hidden">?</div>
                         <div class="secret-peg hidden">?</div>
                     </div>
-                    <div class="moves-counter">
+                    <div class="moves-counter" aria-label="Move counter">
                         <span id="movesCount">0</span> / <span id="maxMoves">8</span> moves
                     </div>
                 </div>
 
-                <div class="game-board" id="gameBoard">
+                <div class="game-board" id="gameBoard" role="region" aria-label="Game board showing guesses and feedback">
                     <!-- Active and previous guesses will appear here -->
                 </div>
 
-                <div class="color-palette" id="colorPalette">
+                <div class="color-palette" id="colorPalette" role="region" aria-label="Color selection palette">
                     <div class="color-option" data-color="red" style="background-color: #dc2626;"></div>
                     <div class="color-option" data-color="blue" style="background-color: #2563eb;"></div>
                     <div class="color-option" data-color="green" style="background-color: #16a34a;"></div>
@@ -43,34 +109,41 @@
                     <div class="color-option" data-color="purple" style="background-color: #a855f7;"></div>
                 </div>
 
-                <div class="action-buttons">
-                    <button id="agentSuggest" class="btn-submit">AGENT SUGGESTION</button>
-                    <button id="submitGuess" class="btn-submit" disabled>SUBMIT</button>
+                <div class="action-buttons" role="toolbar" aria-label="Game action buttons">
+                    <button id="agentSuggest" class="btn-submit" aria-describedby="agentSuggestDesc">AGENT SUGGESTION</button>
+                    <button id="submitGuess" class="btn-submit" disabled aria-describedby="submitDesc">SUBMIT</button>
                 </div>
             </div>
 
-            <div class="message" id="message"></div>
+            <div class="message" id="message" role="alert" aria-live="assertive"></div>
+
+            <!-- Hidden descriptions for accessibility -->
+            <div id="howToPlayDesc" class="sr-only">Learn how to play the Codebreaker game</div>
+            <div id="settingsDesc" class="sr-only">Adjust game settings and preferences</div>
+            <div id="newGameDesc" class="sr-only">Start a new game with the same settings</div>
+            <div id="submitDesc" class="sr-only">Submit your current guess to check against the secret code</div>
+            <div id="agentSuggestDesc" class="sr-only">Get a suggestion from the AI agent</div>
         </main>
     </div>
 
-    <!-- Modal -->
+    <!-- How to Play Modal -->
     <div id="modal" class="modal">
         <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>How to Play</h2>
+            <span class="close" id="closeModels">&times;</span>
+            <h2>How to Play Decipher</h2>
             <div class="instructions">
-                <p>The computer has generated a secret code of 5 colors. Your goal is to guess the correct sequence.</p>
+                <p>The computer has generated a secret code of length <span id="slotsCountDisplay">5</span>. Your goal is to guess the correct colors and sequence. The secret code may or may not contain all the colors from the palette.</p>
 
                 <h3>Using Mouse:</h3>
                 <ul>
-                    <li>Click on a color from the palette</li>
-                    <li>Click on an empty slot to place the color</li>
+                    <li>Click on a color from the palette to select it</li>
+                    <li>Click on an empty slot to place the selected color</li>
+                    <li>Click on a filled slot to clear it (acts like backspace)</li>
                     <li>Click "Submit Guess" when ready</li>
                 </ul>
 
                 <h3>Using Keyboard:</h3>
                 <ul>
-                    <li>Press <kbd>1-5</kbd> to select colors (red, blue, green, yellow, purple)</li>
                     <li>Press <kbd>Arrow Keys</kbd> to navigate between slots</li>
                     <li>Press <kbd>Enter</kbd> to submit your guess</li>
                     <li>Press <kbd>H</kbd> to show help</li>
@@ -83,7 +156,33 @@
                     <li><span class="feedback-dot" style="background: #fbbf24;"></span> <strong>Yellow dot:</strong> Correct color in wrong position</li>
                     <li><span class="feedback-dot" style="background: #6b7280;"></span> <strong>Gray dot:</strong> Color not in code</li>
                 </ul>
+
+                <h3>About Decipher Game</h3>
+                <p>Decipher is a classic logic puzzle game similar to Mastermind. It challenges players to use deductive reasoning to determine a secret color code. This game helps improve logical thinking, pattern recognition, and problem-solving skills.</p>
+
+                <h3>Strategy Tips</h3>
+                <ul>
+                    <li>Start with a guess using different colors to maximize information</li>
+                    <li>Pay attention to feedback patterns to eliminate possibilities</li>
+                    <li>Try to use previous feedback to inform your next guess</li>
+                    <li>Look for patterns in the feedback to deduce the correct sequence</li>
+                </ul>
             </div>
+        </div>
+
+        <!-- Additional SEO Content -->
+        <div class="seo-content" style="display: none;">
+            <h2>Mastermind-Style Puzzle Game</h2>
+            <p>Challenge your mind with our free online Decipher puzzle game. This logic puzzle tests your deductive reasoning skills as you attempt to crack the secret color code. Similar to the classic Mastermind game, Decipher requires strategic thinking and pattern recognition.</p>
+
+            <h2>How to Win at Decipher</h2>
+            <p>Success in Decipher requires a strategic approach. Start by testing different colors to understand which ones are in the secret code. Use the feedback from each guess to eliminate possibilities and narrow down the correct sequence. The fewer moves you take to solve the puzzle, the better your score.</p>
+
+            <h2>Benefits of Playing Logic Games</h2>
+            <p>Playing logic games like Decipher helps improve cognitive functions including memory, attention, and problem-solving skills. Regular practice with puzzles can enhance your ability to recognize patterns and think critically.</p>
+
+            <h2>Free Online Puzzle Games</h2>
+            <p>Enjoy our collection of free online puzzle games designed to challenge and entertain. No downloads required - play directly in your browser. Perfect for brain training and mental exercise.</p>
         </div>
     </div>
 

@@ -1,9 +1,26 @@
 /**
- * Import the base AgentInterface class
- * Note: In a browser environment, you might need to ensure AgentInterface is loaded before this file
+ * Entropy Maximizing Agent for Decipher Game
+ *
+ * This agent implements an information-theoretic approach to solving the Decipher game.
+ * It uses entropy maximization to select the guess that provides the most information
+ * about the secret code on average.
+ *
+ * Algorithm Overview:
+ * 1. Maintains a set of potential solutions consistent with all previous feedback
+ * 2. For each potential action, calculates the expected information gain
+ * 3. Selects the action with the highest expected information gain
+ * 4. Information gain is calculated as: entropy_before - expected_entropy_after
+ *
+ * The agent balances exploration (reducing uncertainty) with exploitation (using known information)
+ * to efficiently solve the puzzle in as few moves as possible.
  */
 
 class EntropyMaximizingAgent extends AgentInterface {
+    /**
+     * Creates a new EntropyMaximizingAgent instance
+     * @param {number} numColors - Number of colors in the game
+     * @param {number} numSlots - Number of slots in the secret code
+     */
     constructor(numColors, numSlots) {
         super(numColors, numSlots); // Call the parent constructor to initialize common properties
     }
@@ -162,7 +179,23 @@ class EntropyMaximizingAgent extends AgentInterface {
         return this.getRandomPossibleActions(5000);
     }
 
-    // Calculate information gain for a specific action based on potential solutions
+    /**
+     * Calculates the information gain for a specific action based on potential solutions
+     *
+     * Information gain represents the expected reduction in uncertainty about the secret code
+     * after making a particular guess. The algorithm:
+     *
+     * 1. Groups potential solutions by the feedback they would produce with this action
+     * 2. Calculates the probability of each feedback group
+     * 3. Calculates the expected entropy after receiving feedback
+     * 4. Returns information gain = entropy_before - expected_entropy_after
+     *
+     * Higher information gain means the action is expected to reduce uncertainty more effectively.
+     *
+     * @param {number[]} action - The action (guess) to evaluate
+     * @param {number[][]} potentialSolutions - Array of potential solutions consistent with previous feedback
+     * @returns {number} The expected information gain in bits
+     */
     calculateInformationGainForAction(action, potentialSolutions) {
         // Group potential solutions by the feedback they would produce with this action
         const feedbackGroups = new Map();
@@ -194,9 +227,24 @@ class EntropyMaximizingAgent extends AgentInterface {
         return entropyBefore - expectedEntropyAfter;
     }
 
-    // Evaluate how two guesses would compare in terms of feedback (without knowing the secret)
-    // This method compares two guesses as if one was the secret and the other was the guess
-    // Used for filtering possible solutions based on previous feedback
+    /**
+     * Evaluates feedback between two guesses (as if one was the secret code)
+     *
+     * This method implements the same two-pass algorithm as the main game engine's
+     * evaluateGuess method, but operates on numeric arrays instead of color strings.
+     * It's used to determine what feedback would be produced if one guess was
+     * compared against another (treating one as the secret code).
+     *
+     * Algorithm:
+     * 1. First pass: Identify exact matches (same number at same position)
+     * 2. Second pass: Identify partial matches (same number at different positions)
+     *
+     * @param {number[]} guess1 - First guess array (treated as player's guess)
+     * @param {number[]} guess2 - Second guess array (treated as secret code)
+     * @returns {Object} Object containing exact and partial match counts
+     * @returns {number} return.exact - Number of exact matches
+     * @returns {number} return.partial - Number of partial matches
+     */
     evaluateGuessFeedback(guess1, guess2) {
         let exact = 0;
         let partial = 0;

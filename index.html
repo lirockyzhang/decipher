@@ -3,48 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decipher</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self'; frame-ancestors 'none';">
+    <title>Decipher - Mastermind Puzzle Challenge | Logic Game & Brain Teaser</title>
+    <meta name="title" content="Decipher - Mastermind Puzzle Challenge | Logic Game & Brain Teaser">
+    <meta name="description" content="Play Decipher, the classic Mastermind-style logic puzzle game online! Test your deductive reasoning skills in this challenging code breaker brain teaser. Free to play with adjustable difficulty settings.">
+    <meta name="keywords" content="decipher, mastermind, puzzle game, logic game, code breaker, brain teaser, strategy game, color puzzle, online games, free games, deductive reasoning">
+    <meta name="author" content="puzzle.lzhang.dev">
+    <meta name="robots" content="index, follow">
+    <meta name="revisit-after" content="7 days">
+    <link rel="canonical" href="https://puzzle.lzhang.dev">
+    <link rel="alternate" type="application/rss+xml" title="Decipher Game Updates" href="https://puzzle.lzhang.dev/rss.xml">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://puzzle.lzhang.dev">
+    <meta property="og:title" content="Decipher Game - Mastermind Puzzle Challenge | Logic Game & Brain Teaser">
+    <meta property="og:description" content="Play Decipher, the classic Mastermind-style logic puzzle game online! Test your deductive reasoning skills in this challenging code breaker brain teaser.">
+    <meta property="og:image" content="https://puzzle.lzhang.dev/images/decipher-preview.jpg">
+    <meta property="og:image:alt" content="Decipher puzzle game interface with colored pegs">
+    <meta property="og:site_name" content="puzzle.lzhang.dev">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://puzzle.lzhang.dev">
+    <meta property="twitter:title" content="Decipher Game - Mastermind Puzzle Challenge | Logic Game & Brain Teaser">
+    <meta property="twitter:description" content="Play Decipher, the classic Mastermind-style logic puzzle game online! Test your deductive reasoning skills in this challenging code breaker brain teaser.">
+    <meta property="twitter:image" content="https://puzzle.lzhang.dev/images/decipher-preview.jpg">
+    <meta property="twitter:image:alt" content="Decipher puzzle game interface with colored pegs">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "Decipher Game",
+      "description": "A challenging Mastermind-style puzzle game where players guess the secret color code in as few moves as possible. This logic game tests deductive reasoning skills and pattern recognition abilities.",
+      "url": "https://puzzle.lzhang.dev",
+      "image": "https://puzzle.lzhang.dev/images/decipher-preview.jpg",
+      "author": {
+        "@type": "Organization",
+        "name": "puzzle.lzhang.dev"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "puzzle.lzhang.dev",
+        "url": "https://puzzle.lzhang.dev"
+      },
+      "gamePlatform": "Web Browser",
+      "playMode": "SinglePlayer",
+      "genre": ["Puzzle", "Logic Game", "Brain Teaser", "Strategy Game"],
+      "audience": {
+        "@type": "Audience",
+        "name": "Everyone",
+        "audienceType": ["Puzzle Game Enthusiasts", "Logic Game Players", "Brain Teaser Lovers"]
+      },
+      "inLanguage": "en",
+      "datePublished": "2025-01-01",
+      "dateModified": "2025-01-01",
+      "keywords": "decipher, mastermind, puzzle game, logic game, code breaker, brain teaser, strategy game, color puzzle",
+      "hasPart": [
+        {
+          "@type": "HowTo",
+          "name": "How to Play Decipher",
+          "description": "Learn how to play the Decipher game with our comprehensive guide covering basic gameplay, feedback interpretation, and strategy tips."
+        }
+      ],
+      "gameTip": [
+        {
+          "@type": "GameTip",
+          "name": "Start with diverse colors",
+          "description": "Begin with different colors to gather maximum information about the secret code."
+        },
+        {
+          "@type": "GameTip",
+          "name": "Use feedback strategically",
+          "description": "Pay attention to feedback patterns to eliminate possibilities and narrow down the correct sequence."
+        }
+      ],
+      "softwareVersion": "1.0",
+      "applicationCategory": "Game",
+      "operatingSystem": "Web Browser",
+      "isBasedOn": "Mastermind"
+    }
+    </script>
+
+    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <header>
+        <header role="banner">
             <h1>DECIPHER</h1>
             <div class="centered-buttons-row">
-                <div class="header-buttons">
-                    <button id="howToPlay" class="icon-btn" aria-label="How to play" title="How to Play">❓</button>
-                    <button id="settingsBtn" class="icon-btn" aria-label="Settings" title="Settings">⚙️</button>
-                    <button id="newGame" class="icon-btn" aria-label="New game" title="New Game">🔄</button>
+                <div class="header-buttons" role="toolbar" aria-label="Game Controls">
+                    <button id="howToPlay" class="icon-btn" aria-label="How to play" title="How to Play" aria-describedby="howToPlayDesc">❓</button>
+                    <button id="settingsBtn" class="icon-btn" aria-label="Settings" title="Settings" aria-describedby="settingsDesc">⚙️</button>
+                    <button id="newGame" class="icon-btn" aria-label="Start new game" title="New Game" aria-describedby="newGameDesc">🔄</button>
                 </div>
             </div>
         </header>
 
-        <main>
-            <div class="game-container">
-                <div class="secret-code-container">
-                    <div class="secret-code" id="secretCode">
+        <main role="main">
+            <div class="game-container" role="application" aria-label="Codebreaker Game Interface">
+                <div class="secret-code-container" aria-label="Secret Code Display">
+                    <div class="secret-code" id="secretCode" aria-live="polite" aria-atomic="true">
                         <!-- This will be populated dynamically -->
                     </div>
-                    <div class="moves-counter">
+                    <div class="moves-counter" aria-label="Move counter">
                         <span id="movesCount">0</span> / <span id="maxMoves">8</span> moves
                     </div>
                 </div>
 
-                <div class="game-board" id="gameBoard">
+                <div class="game-board" id="gameBoard" role="region" aria-label="Game board showing guesses and feedback">
                     <!-- Active and previous guesses will appear here -->
                 </div>
 
-                <div class="color-palette" id="colorPalette">
+                <div class="color-palette" id="colorPalette" role="region" aria-label="Color selection palette">
                     <!-- This will be populated dynamically -->
                 </div>
 
-                <div class="action-buttons">
-                    <button id="submitGuess" class="btn-submit" disabled>SUBMIT</button>
+                <div class="action-buttons" role="toolbar" aria-label="Game action buttons">
+                    <button id="submitGuess" class="btn-submit" disabled aria-describedby="submitDesc">SUBMIT</button>
                     <!-- <button id="agentSuggest" class="btn-submit">AGENT SUGGESTION</button> -->
                 </div>
             </div>
 
-            <div class="message" id="message"></div>
+            <div class="message" id="message" role="alert" aria-live="assertive"></div>
+
+            <!-- Hidden descriptions for accessibility -->
+            <div id="howToPlayDesc" class="sr-only">Learn how to play the Codebreaker game</div>
+            <div id="settingsDesc" class="sr-only">Adjust game settings and preferences</div>
+            <div id="newGameDesc" class="sr-only">Start a new game with the same settings</div>
+            <div id="submitDesc" class="sr-only">Submit your current guess to check against the secret code</div>
         </main>
     </div>
 
@@ -52,9 +143,17 @@
     <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeModels">&times;</span>
-            <h2>How to Play</h2>
+            <h2>How to Play Decipher</h2>
             <div class="instructions">
                 <p>The computer has generated a secret code of length <span id="slotsCountDisplay">5</span>. Your goal is to guess the correct colors and sequence. The secret code may or may not contain all the colors from the palette.</p>
+
+                <h3>Feedback:</h3>
+                <ul>
+                    <li><span class="feedback-dot" style="background: #22c55e;"></span> <strong>Green dot:</strong> Correct color in correct position</li>
+                    <li><span class="feedback-dot" style="background: #fbbf24;"></span> <strong>Yellow dot:</strong> Correct color in wrong position</li>
+                    <li><span class="feedback-dot" style="background: #6b7280;"></span> <strong>Gray dot:</strong> Color not in code</li>
+                </ul>
+                * The feedback dots <strong>do not</strong> correspond to the positions of your guess; they only indicate counts.
 
                 <h3>Using Mouse:</h3>
                 <ul>
@@ -72,12 +171,17 @@
                     <li>Press <kbd>Backspace</kbd> to clear current slot</li>
                 </ul>
 
-                <h3>Feedback:</h3>
+                <h3>Strategy Tips</h3>
                 <ul>
-                    <li><span class="feedback-dot" style="background: #22c55e;"></span> <strong>Green dot:</strong> Correct color in correct position</li>
-                    <li><span class="feedback-dot" style="background: #fbbf24;"></span> <strong>Yellow dot:</strong> Correct color in wrong position</li>
-                    <li><span class="feedback-dot" style="background: #6b7280;"></span> <strong>Gray dot:</strong> Color not in code</li>
+                    <li>Start with a guess using different colors to maximize information</li>
+                    <li>Pay attention to feedback patterns to eliminate possibilities</li>
+                    <li>Try to use previous feedback to inform your next guess</li>
+                    <li>Look for patterns in the feedback to deduce the correct sequence</li>
                 </ul>
+
+                <h3>About Decipher Game</h3>
+                <p>Decipher is a classic logic puzzle game similar to Mastermind. It challenges players to use deductive reasoning to determine a secret color code. This game helps improve logical thinking, pattern recognition, and problem-solving skills.</p>
+
             </div>
         </div>
     </div>
@@ -105,14 +209,69 @@
         </div>
     </div>
 
+    <!-- Additional SEO Content -->
+    <section class="seo-content" aria-label="Game information and instructions">
+        <h2>About Decipher - The Classic Logic Puzzle Game</h2>
+        <p>Decipher is a challenging <strong>logic puzzle</strong> game inspired by the classic Mastermind. As a <strong>code breaker</strong> game, it tests your deductive reasoning skills as you attempt to crack the secret color code. This <strong>strategy game</strong> and <strong>brain teaser</strong> requires players to use logical thinking and pattern recognition to determine the hidden sequence of colors.</p>
+
+        <h2>How to Play Decipher - Complete Guide</h2>
+        <p>Playing Decipher is both fun and mentally stimulating. This <strong>logic puzzle</strong> challenges players to discover a secret color code within a limited number of attempts. Each guess provides feedback that helps you eliminate possibilities and refine your next move.</p>
+
+        <h3>Basic Gameplay</h3>
+        <p>The computer generates a secret code consisting of colored pegs. Your goal is to determine the exact colors and positions in the sequence. The <strong>code breaker</strong> game begins with you making your first guess using the available colors from the palette.</p>
+
+        <h3>Understanding Feedback</h3>
+        <p>After each guess, you'll receive feedback through colored pegs:
+            <ul>
+                <li><strong>Green pegs</strong> indicate a correct color in the correct position</li>
+                <li><strong>Yellow pegs</strong> indicate a correct color in the wrong position</li>
+                <li><strong>Gray pegs</strong> indicate colors not present in the secret code</li>
+            </ul>
+        </p>
+
+        <h3>Strategy Tips for Success</h3>
+        <p>To excel at this <strong>brain teaser</strong>, start with diverse colors to gather maximum information. Use the feedback from each <strong>strategy game</strong> attempt to eliminate possibilities systematically. Pay attention to patterns in the feedback to deduce the correct sequence more efficiently.</p>
+
+        <h2>Benefits of Playing Logic Puzzle Games</h2>
+        <p>Regular engagement with <strong>logic puzzle</strong> games like Decipher enhances cognitive functions including memory, attention, and problem-solving skills. These <strong>brain teaser</strong> activities improve pattern recognition abilities and strengthen logical reasoning, making them excellent mental exercises.</p>
+
+        <h2>Why Choose Our Code Breaker Game?</h2>
+        <p>Our <strong>Decipher</strong> game offers an engaging <strong>strategy game</strong> experience that combines classic puzzle mechanics with modern web technology. It's completely free to play with no downloads required. Perfect for anyone looking for a challenging <strong>brain teaser</strong> or <strong>logic puzzle</strong> to sharpen their mind.</p>
+
+        <h2>Mastermind-Style Puzzle Experience</h2>
+        <p>Experience the thrill of the classic Mastermind-style puzzle with our online <strong>code breaker</strong> game. This digital version maintains the strategic depth of the original while adding convenient features like adjustable difficulty settings and instant feedback. Whether you're new to <strong>logic puzzle</strong> games or a seasoned <strong>brain teaser</strong> enthusiast, Decipher provides an engaging challenge.</p>
+
+        <h2>Types of Logic Puzzles and Brain Teasers</h2>
+        <p>Logic puzzles come in many forms, from number-based challenges like Sudoku to pattern recognition games like Decipher. Each <strong>brain teaser</strong> type exercises different cognitive skills. Pattern-based <strong>logic puzzle</strong> games specifically enhance your ability to recognize sequences and make deductions based on limited information.</p>
+
+        <h2>Improving Cognitive Skills with Strategy Games</h2>
+        <p>Engaging regularly with <strong>strategy game</strong> experiences like Decipher can improve cognitive flexibility, working memory, and executive function. These <strong>brain teaser</strong> activities challenge your mind to process multiple pieces of information simultaneously, strengthening neural pathways associated with problem-solving.</p>
+
+        <h2>History of Code-Breaking Games</h2>
+        <p>The <strong>code breaker</strong> genre has its roots in the military and cryptography. The classic Mastermind game, introduced in the 1970s, brought this concept to mainstream entertainment. Our <strong>Decipher</strong> game continues this tradition of <strong>logic puzzle</strong> entertainment that challenges players to think systematically.</p>
+
+        <h2>Advanced Strategy for Puzzle Enthusiasts</h2>
+        <p>For advanced players, <strong>strategy game</strong> mastery involves understanding probability and information theory. Each guess in a <strong>code breaker</strong> game should maximize the information gained, not just aim for the solution. This approach, used by AI agents in our game, can significantly reduce the average number of moves needed to solve the <strong>brain teaser</strong>.</p>
+
+        <h2>Free Online Puzzle Games for Brain Training</h2>
+        <p>Our <strong>Decipher</strong> game is part of a growing collection of free online <strong>logic puzzle</strong> games designed for cognitive enhancement. Unlike many digital games, <strong>brain teaser</strong> experiences provide beneficial mental exercise without the negative effects associated with mindless entertainment. Play our <strong>strategy game</strong> for just 10 minutes daily to see improvements in your problem-solving abilities.</p>
+
+        <h2>Accessibility and Inclusive Design in Puzzle Games</h2>
+        <p>We believe <strong>logic puzzle</strong> games should be accessible to everyone. Our <strong>code breaker</strong> game includes keyboard navigation, screen reader support, and adjustable difficulty settings. These features make our <strong>brain teaser</strong> experience available to players with different abilities and preferences, ensuring that everyone can enjoy this <strong>strategy game</strong>.</p>
+    </section>
+
+    <!-- Resource hints for performance -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="game_core.js" as="script">
+
     <!-- Load the agent architecture -->
-    <script src="game_core.js"></script>
-    <script src="agent/agent_interface.js"></script>
-    <script src="agent/entropy_agent.js"></script>
-    <script src="agent/human_agent.js"></script>
-    <script src="agent/q_learning_agent.js"></script>
-    <script src="game_controller.js"></script>
-    <script src="ui_handler.js"></script>
-    <script src="game.js"></script>
+    <script src="game_core.js" defer></script>
+    <script src="agent/agent_interface.js" defer></script>
+    <script src="agent/entropy_agent.js" defer></script>
+    <script src="agent/human_agent.js" defer></script>
+    <script src="agent/q_learning_agent.js" defer></script>
+    <script src="game_controller.js" defer></script>
+    <script src="ui_handler.js" defer></script>
+    <script src="game.js" defer></script>
 </body>
 </html>

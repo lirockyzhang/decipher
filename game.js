@@ -1,7 +1,7 @@
 /**
  * Simplified Game Initialization - Sets up the game with the new architecture
  */
-class CodebreakerGame {
+class DecipherGame {
     constructor(numColors = 5, numSlots = 5, maxAttempts = 8) {
         // Create the game controller which manages the game engine and agents
         this.gameController = new GameController(numColors, numSlots, maxAttempts);
@@ -64,14 +64,14 @@ class CodebreakerGame {
 }
 
 // Initialize game when page loads with default values
-let codebreakerGame;
+let decipherGame;
 let uiHandler;
 
 window.addEventListener('DOMContentLoaded', () => {
-    codebreakerGame = new CodebreakerGame(5, 5); // Default: 5 colors, 5 slots
-    uiHandler = codebreakerGame.uiHandler; // Reference to the UI handler
+    decipherGame = new DecipherGame(5, 5); // Default: 5 colors, 5 slots
+    uiHandler = decipherGame.uiHandler; // Reference to the UI handler
 
     // Make variables available globally for UI handler to access
-    window.codebreakerGame = codebreakerGame;
+    window.decipherGame = decipherGame;
     window.uiHandler = uiHandler;
 });
